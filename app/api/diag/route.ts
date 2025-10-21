@@ -22,22 +22,23 @@ export async function GET() {
     .limit(5);
 
   return NextResponse.json({
-    env: {
-      NEXT_PUBLIC_SUPABASE_URL_PRESENT: !!url,
-      NEXT_PUBLIC_SUPABASE_ANON_KEY_PRESENT: hasAnon,
-      SUPABASE_SERVICE_ROLE_KEY_PRESENT: hasService,
+  env: {
+    NEXT_PUBLIC_SUPABASE_URL_PRESENT: !!url,
+    NEXT_PUBLIC_SUPABASE_URL_VALUE: url, // <-- on l'affiche
+    NEXT_PUBLIC_SUPABASE_ANON_KEY_PRESENT: hasAnon,
+    SUPABASE_SERVICE_ROLE_KEY_PRESENT: hasService,
+  },
+  tests: {
+    countAll: {
+      ok: !errCount,
+      error: errCount?.message ?? null,
+      count: (countAll as any) ? (countAll as any).length ?? null : null
     },
-    tests: {
-      countAll: {
-        ok: !errCount,
-        error: errCount?.message ?? null,
-        count: (countAll as any) ? (countAll as any).length ?? null : null
-      },
-      pending: {
-        ok: !errPending,
-        error: errPending?.message ?? null,
-        rows: pending ?? []
-      }
+    pending: {
+      ok: !errPending,
+      error: errPending?.message ?? null,
+      rows: pending ?? []
     }
-  });
+  }
+});
 }
