@@ -21,24 +21,24 @@ export async function GET() {
     .order('created_at', { ascending: false })
     .limit(5);
 
-  return NextResponse.json({
-  env: {
-    NEXT_PUBLIC_SUPABASE_URL_PRESENT: !!url,
-    NEXT_PUBLIC_SUPABASE_URL_VALUE: url, // <-- on l'affiche
-    NEXT_PUBLIC_SUPABASE_ANON_KEY_PRESENT: hasAnon,
-    SUPABASE_SERVICE_ROLE_KEY_PRESENT: hasService,
-  },
-  tests: {
-    countAll: {
-      ok: !errCount,
-      error: errCount?.message ?? null,
-      count: (countAll as any) ? (countAll as any).length ?? null : null
+    return NextResponse.json({
+    env: {
+      NEXT_PUBLIC_SUPABASE_URL_PRESENT: !!url,
+      NEXT_PUBLIC_SUPABASE_URL_VALUE: url, // <-- on l'affiche
+      NEXT_PUBLIC_SUPABASE_ANON_KEY_PRESENT: hasAnon,
+      SUPABASE_SERVICE_ROLE_KEY_PRESENT: hasService,
     },
-    pending: {
-      ok: !errPending,
-      error: errPending?.message ?? null,
-      rows: pending ?? []
+    tests: {
+      countAll: {
+        ok: !errCount,
+        error: errCount?.message ?? null,
+        count: (countAll as any) ? (countAll as any).length ?? null : null
+      },
+      pending: {
+        ok: !errPending,
+        error: errPending?.message ?? null,
+        rows: pending ?? []
+      }
     }
-  }
-});
+  });
 }
